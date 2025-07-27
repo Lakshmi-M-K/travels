@@ -1,97 +1,32 @@
-import React, { useRef } from "react";
-import { FaPeopleGroup } from "react-icons/fa6";
-import { IoIosPricetags } from "react-icons/io";
-import { IoIosSearch } from "react-icons/io";
+import React from "react";
+import { IoCall } from "react-icons/io5";
 import { toast } from "react-toastify";
-import BASE_URL from "../../utils/config";
-import { useNavigate } from "react-router-dom";
 import "./SeachhBar.css";
 
 const SearchBar = () => {
-  const minPriceRef = useRef(0);
-  const maxPriceRef = useRef(0);
-  const cityRef = useRef(0);
-  const navigate = useNavigate();
+  const contactNumber = "9880368807";
 
-  const SubmitHandler = async () => {
-    const minPrice = minPriceRef.current.value;
-    const maxPrice = maxPriceRef.current.value;
-    const searchTerm = cityRef.current.value;
+  const handleCallClick = (e) => {
+    const user = localStorage.getItem("user");
 
-    if (minPrice === "" || maxPrice === "" || searchTerm === "") {
-      toast.error("Please fill all the fields");
-    } else {
-      const response = await fetch(
-        `${BASE_URL}/tour/search?search=${searchTerm}&minPrice=${minPrice}&maxPrice=${maxPrice}`
-      );
-      if (!response.ok) {
-        toast.error("No Record Found!");
-        navigate(
-          `/tours/search?search=${searchTerm}&minPrice=${minPrice}&maxPrice=${maxPrice}`,
-          { state: result.data }
-        );
-      }
-
-      const result = await response.json();
-
-      navigate(
-        `/tours/search?search=${searchTerm}&minPrice=${minPrice}&maxPrice=${maxPrice}`,
-        { state: result.data }
-      );
+    if (!user) {
+      e.preventDefault(); // Prevent the tel: link from triggering
+      toast.error("Please login to make a call");
     }
   };
 
   return (
-    <div>
-      <div className="search-bar">
-        <form className="form md:flex hidden items-center gap-4">
-          <div className="form-group flex gap-3 md:form-group-fast">
-            <span>
-              <i>
-                <FaPeopleGroup />
-              </i>
-            </span>
-            <div>
-              <h6>Location</h6>
-              <input
-                type="text"
-                placeholder="Where are you going?"
-                ref={cityRef}
-              />
-            </div>
-          </div>
-          <div className="form-group flex gap-3 md:form-group-fast">
-            <span>
-              <i>
-                <IoIosPricetags />
-              </i>
-            </span>
-            <div>
-              <h6>Min Price</h6>
-              <input type="number" placeholder="Mn. Price" ref={minPriceRef} />
-            </div>
-          </div>
-          <div className="form-group flex gap-3 form-group-last">
-            <span>
-              <i>
-                <IoIosPricetags />
-              </i>
-            </span>
-            <div>
-              <h6>Max Price</h6>
-              <input type="number" placeholder="Max Price" ref={maxPriceRef} />
-            </div>
-          </div>
-          <span
-            className="search-icon bg-BaseColor rounded-lg cursor-pointer py-2 px-2"
-            type="submit"
-            onClick={SubmitHandler}
-          >
-            <i>
-              <IoIosSearch size={30} className="text-white" />
-            </i>
-          </span>
-        </form>
+    <div className="search-bar">
+      <div className="flex items-center justify-center gap-3 md:gap-6">
+        <a
+          href={`tel:${contactNumber}`}
+          onClick={handleCallClick}
+          className="bg-BaseColor text-white p-3 rounded-full hover:bg-opacity-80 transition"
+          title={`Call ${contactNumber}`}
+        >
+          <IoCall size={28} />
+        </a>
+        <span className="text-lg font-medium">{contactNumber}</span>
       </div>
     </div>
   );

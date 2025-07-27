@@ -14,10 +14,13 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 3050;
 
+// ✅ Fix: Read the MongoDB connection string
+const mongoURL = process.env.MONGO_URL;
+
 mongoose
-  .connect(process.env.MONGO_URL)
-  .then(() => console.log("DB connected"))
-  .catch((err) => console.log(err));
+  .connect(mongoURL)
+  .then(() => console.log("MongoDB connected"))
+  .catch((err) => console.error("MongoDB connection error:", err));
 
 // Middleware for CORS and JSON parsing
 const allowedOrigins = [
@@ -45,6 +48,12 @@ app.use("/api/user", userRoutes);
 app.use("/api/tour", tourRoutes);
 app.use("/api/review", reviewRoutes);
 app.use("/api/booking", bookingRoutes);
+
+app.use("/api/reviews", reviewRoutes);
+
+app.listen(5000, () => {
+  console.log("Server running on port 5000");
+});
 
 app.get("/", (req, res) => {
   res.send("Welcome to the Trips & Travels API!");
