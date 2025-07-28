@@ -52,7 +52,9 @@ app.use("/api/booking", bookingRoutes);
 app.use("/api/reviews", reviewRoutes);
 
 app.listen(5000, () => {
-  console.log("Server running on port 5000");
+  console.log(
+    "mongodb+srv://ManojLakshmi:8904016770mk@cluster0.5xh3ozw.mongodb.net/trishik_travels"
+  );
 });
 
 app.get("/", (req, res) => {
@@ -60,5 +62,7 @@ app.get("/", (req, res) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+  console.log(
+    `mongodb+srv://ManojLakshmi:8904016770mk@cluster0.5xh3ozw.mongodb.net/trishik_travels`
+  );
 });
