@@ -9,9 +9,11 @@ const Reviews = () => {
   const [rating, setRating] = useState(0);
   const [hover, setHover] = useState(0);
 
+  const API_BASE = import.meta.env.VITE_API_URL;
+
   const fetchReviews = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/reviews");
+      const res = await axios.get(`${API_BASE}/api/reviews`);
       setReviews(res.data);
     } catch (err) {
       toast.error("Failed to fetch reviews");
@@ -27,7 +29,7 @@ const Reviews = () => {
     if (rating === 0) return toast.error("Select a star rating!");
 
     try {
-      const res = await axios.post("http://localhost:5000/api/reviews", {
+      const res = await axios.post(`${API_BASE}/api/reviews`, {
         text: newReview,
         rating,
       });
